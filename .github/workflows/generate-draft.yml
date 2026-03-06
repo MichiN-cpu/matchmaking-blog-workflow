@@ -27,8 +27,9 @@ jobs:
       - name: 依存関係をインストール
         run: pip install -r requirements.txt
 
-      - name: 下書きを生成（API で記事作成 → drafts 保存・log/stock 更新）
+      - name: 下書きを生成（手動の流れを自動化：Claude で記事作成 → drafts 保存・log/stock 更新）
         env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
         run: python scripts/generate_draft.py
 

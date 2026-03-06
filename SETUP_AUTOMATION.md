@@ -1,13 +1,13 @@
 # 自動スケジュール設定（約30分で完了）
 
-**3日に1回**、GitHub 上でブログ下書きを自動作成し、`drafts/` に保存・`stock.md` と `used/log.md` を更新するための設定手順です。API キーと GitHub の「秘密の値」を安全に設定すれば動きます。
+**3日に1回**、**手動の流れ（Claude Code で記事を書く）を自動化**します。GitHub 上で Claude が記事を1本つくり、`drafts/` に保存・`stock.md` と `used/log.md` を更新。あとは手動と同じく、あなたがチェック → OK なら画像生成・Wix 投稿です。
 
 ---
 
 ## 前提
 
 - このフォルダ（matchmaking-blog-workflow）を **GitHub のリポジトリ** として使うこと
-- **OpenAI の API キー** を1つ取得すること（有料ですが、1記事あたり数円程度の利用量です）
+- **API キー**を1つ用意する：**ANTHROPIC_API_KEY**（Claude＝手動の Claude Code と同じ）を推奨。未設定なら **OPENAI_API_KEY** でも動きます（有料です）。
 
 ---
 
@@ -35,29 +35,38 @@
 
 ---
 
-## ステップ2：OpenAI の API キーを取得する（約5分）
+## ステップ2：API キーを取得する（約5分）
 
-1. [OpenAI のプラットフォーム](https://platform.openai.com/) を開き、ログインする（アカウントがない場合は作成）。
-2. 左メニューで **API keys**（API キー）を開く。
-3. **Create new secret key** をクリックし、名前（例：`blog-draft`）を付けて作成する。
-4. 表示された **キー（sk-...で始まる文字列）** をコピーする。**この画面を閉じると二度と表示されない**ので、メモ帳などに一時的に貼り付けておく。
+**手動の Claude Code と同じ流れにしたいなら、Anthropic（Claude）のキーを推奨します。**
 
-※ 請求先を設定していない場合は、先に [Billing](https://platform.openai.com/account/billing) でクレジットカードなどを登録する必要があります。利用量は少ないので、数ドル分のチャージで長く使えます。
+### 推奨：Anthropic（Claude）の API キー
+
+1. [Anthropic のコンソール](https://console.anthropic.com/) を開き、ログインする。
+2. **API Keys** で **Create Key** をクリックし、名前（例：`blog-draft`）を付けて作成する。
+3. 表示されたキーをコピーする（この画面を閉じると二度と表示されないのでメモしておく）。
+4. GitHub の **Settings → Secrets and variables → Actions** で **New repository secret** をクリック。
+   - **Name**: `ANTHROPIC_API_KEY`
+   - **Secret**: コピーした Anthropic のキーを貼り付け → **Add secret**。
+
+※ 請求先の設定が必要な場合があります。[Anthropic の Billing](https://console.anthropic.com/settings/billing) で確認してください。
+
+### 代替：OpenAI の API キー
+
+Anthropic を使わない場合は、**OPENAI_API_KEY** を登録すれば OpenAI（GPT）で記事を生成します。
+
+1. [OpenAI のプラットフォーム](https://platform.openai.com/) で **API keys** → **Create new secret key**。
+2. 表示されたキー（sk-...）をコピーする。
+3. GitHub の **Settings → Secrets and variables → Actions** で **New repository secret**。
+   - **Name**: `OPENAI_API_KEY`
+   - **Secret**: コピーしたキーを貼り付け → **Add secret**。
+
+※ スクリプトは **ANTHROPIC_API_KEY があれば Claude、なければ OPENAI_API_KEY** を使います。両方ある場合は Claude が使われます。
 
 ---
 
-## ステップ3：GitHub に「秘密の値」を登録する（約3分）
+## ステップ3：GitHub に「秘密の値」を登録したか確認する（約1分）
 
-1. 自分の **リポジトリのページ**（matchmaking-blog-workflow）を開く。
-2. 上部メニューの **Settings** をクリック。
-3. 左メニューで **Secrets and variables** → **Actions** をクリック。
-4. **New repository secret** をクリック。
-5. 次のように入力する。
-   - **Name**: `OPENAI_API_KEY`（この名前のまま、1文字も変えない）
-   - **Secret**: ステップ2でコピーした API キー（sk-...）を貼り付ける
-6. **Add secret** をクリックする。
-
-これで、GitHub Actions からは「OPENAI_API_KEY という名前の秘密の値」として参照され、画面には表示されません。
+上記のとおり、**ANTHROPIC_API_KEY**（推奨）または **OPENAI_API_KEY** のどちらかを **Settings → Secrets and variables → Actions** に登録していれば OK です。
 
 ---
 
@@ -84,7 +93,7 @@
 
 | 症状 | 確認すること |
 |------|----------------|
-| 「OPENAI_API_KEY が設定されていません」 | リポジトリの **Settings** → **Secrets and variables** → **Actions** で、名前が `OPENAI_API_KEY` の秘密が1つあるか確認。 |
+| 「ANTHROPIC_API_KEY または OPENAI_API_KEY のどちらかを設定してください」 | **Settings** → **Secrets and variables** → **Actions** で、`ANTHROPIC_API_KEY` または `OPENAI_API_KEY` のどちらかが登録されているか確認。手動の流れに合わせるなら `ANTHROPIC_API_KEY`（Claude）を推奨。 |
 | 「トピックが1件も見つかりません」 | `topics/stock.md` の `---` の下に、`- 〇〇` や `【〇〇】` の行が残っているか確認。 |
 | API エラー（料金・制限） | [OpenAI の Billing](https://platform.openai.com/account/billing) でクレジット残高と利用上限を確認。 |
 | ワークフローは成功するがリポジトリが更新されない | ブランチが `main` か確認。Actions の **Contents** 権限で **read and write** になっているかは、このワークフローでは `permissions: contents: write` で指定済みです。 |

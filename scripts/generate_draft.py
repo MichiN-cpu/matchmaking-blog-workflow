@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-3日に1回の自動実行用：stock.md の先頭トピックで記事下書きを生成し、
-drafts/ に保存、used/log.md に記録、stock.md から該当行を削除する。
-環境変数 OPENAI_API_KEY が必要です。
+3日に1回の自動実行用：手動の流れ（Claude Code で書く）を自動化する。
+stock.md の先頭トピックで記事下書きを生成し、drafts/ に保存、used/log と stock を更新する。
+環境変数: ANTHROPIC_API_KEY があれば Claude（Claude Code と同じ）で書く。なければ OPENAI_API_KEY で OpenAI を使用。
 """
 
 import os
@@ -77,17 +77,52 @@ def build_prompt(topic: str, guidelines: str, brief: str) -> str:
 【依頼】
 トピック：「{topic}」
 
-上記トピックで、ブログ記事の本文だけを書いてください。
-- 歴史・成婚退会の「数」は強調しない。一人ひとりに寄り添う・諦めないで柔軟に・サポートの中身で選ぶ、という良さが伝わるように。
+上記トピックで、**「あすなる愛媛」のブログ**として記事の本文を書いてください。
+
+■ あすなる愛媛らしさ（必須）
+- **一般的な結婚相談所の説明にならないように。** 読んだ人が「この相談所なら話を聞いてみたい」と感じる、具体的で温かみのあるトーンで書く。
+- 記事の随所に、次の視点を自然に織り込む：少人数で一人ひとりに寄り添う／諦めないで柔軟に進められる／サポートの中身・相性で選ぶ／愛媛で婚活する人を応援／その人らしいペースで、安心して話せる場。
+- 冒頭や締めで「愛媛で」「少人数で」「寄り添う」などを、押しつけにならない形で入れる。抽象的な「結婚相談所は」だけで終わらせない。
+- **避けること**：どの相談所のブログかわからないような一般的な説明、ぼんやりとした表現。あすなる愛媛ならではの視点（寄り添い・柔軟・愛媛・安心して話せる）が伝わるように書く。
+- 歴史・成婚退会の「数」は強調しない。
+
+■ その他
 - 顧客目線・失敗しうる点・会員の幸せな未来・心理学以外の観点も入れる。
 - 見出しは ## で。最後に改行を1つ入れて終えてください。画像用プロンプトは不要です。
 """
 
 
+def generate_with_claude(prompt: str, api_key: str) -> str:
+    """Claude（Claude Code と同じ）で記事本文を生成。"""
+    from anthropic import Anthropic
+    client = Anthropic(api_key=api_key)
+    resp = client.messages.create(
+        model="claude-3-5-sonnet-20241022",
+        max_tokens=8192,
+        messages=[{"role": "user", "content": prompt}],
+    )
+    if not resp.content or not resp.content[0].text:
+        return ""
+    return resp.content[0].text.strip()
+
+
+def generate_with_openai(prompt: str, api_key: str) -> str:
+    """OpenAI で記事本文を生成（ANTHROPIC が未設定時のフォールバック）。"""
+    from openai import OpenAI
+    client = OpenAI(api_key=api_key)
+    resp = client.chat.completions.create(
+        model="gpt-4o-mini",
+        messages=[{"role": "user", "content": prompt}],
+        temperature=0.7,
+    )
+    return (resp.choices[0].message.content or "").strip()
+
+
 def main() -> None:
-    api_key = os.environ.get("OPENAI_API_KEY")
-    if not api_key:
-        print("OPENAI_API_KEY が設定されていません。")
+    anthropic_key = os.environ.get("ANTHROPIC_API_KEY")
+    openai_key = os.environ.get("OPENAI_API_KEY")
+    if not anthropic_key and not openai_key:
+        print("ANTHROPIC_API_KEY または OPENAI_API_KEY のどちらかを設定してください。手動の流れに合わせるなら ANTHROPIC_API_KEY（Claude）を推奨します。")
         exit(1)
 
     stock_path = ROOT / "topics" / "stock.md"
@@ -106,16 +141,14 @@ def main() -> None:
     prompt = build_prompt(topic_title, guidelines, brief)
 
     try:
-        from openai import OpenAI
-        client = OpenAI(api_key=api_key)
-        resp = client.chat.completions.create(
-            model="gpt-4o-mini",
-            messages=[{"role": "user", "content": prompt}],
-            temperature=0.7,
-        )
-        body = (resp.choices[0].message.content or "").strip()
+        if anthropic_key:
+            print("Claude（手動の Claude Code と同じ）で記事を生成しています...")
+            body = generate_with_claude(prompt, anthropic_key)
+        else:
+            print("OpenAI で記事を生成しています...")
+            body = generate_with_openai(prompt, openai_key)
     except Exception as e:
-        print(f"OpenAI API エラー: {e}")
+        print(f"API エラー: {e}")
         exit(1)
 
     if not body:

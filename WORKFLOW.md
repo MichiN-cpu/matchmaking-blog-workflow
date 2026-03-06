@@ -2,7 +2,35 @@
 
 Claude Code で Gemini 等へ指示を回す場合は `SETUP.md` を参照。編集方針・品質チェックは `EDITORIAL_GUIDELINES.md` を参照。**あすなる愛媛のブログ**として書く場合は `ASUNARU_EHIME_BRIEF.md` も必ず参照する（歴史・成婚実績の数は強調しない。寄り添い・柔軟なサポート・諦めない会員を育てる視点を入れる）。
 
-**3日に1回の自動実行**（GitHub Actions で下書きを自動作成）を入れたい場合は、**`SETUP_AUTOMATION.md`** を参照（API キー取得と Secrets の設定が約30分でできる手順です）。
+---
+
+## 記事の下書きを用意する2つのやり方
+
+| やり方 | 誰が・何が書くか | 詳しい手順 |
+|--------|------------------|-------------|
+| **手動** | **Claude Code**（あなたが依頼文を渡す） | この WORKFLOW.md の「流れの全体像」〜ステップ3まで。あなたがチェック → OK なら画像生成・Wix 投稿。 |
+| **自動（3日に1回）** | **手動の流れを自動化**。記事を書くのは **Claude**（Claude Code と同じ。API で呼び出し）。あなたの代わりに「stock の先頭トピックで1本つくる → drafts/ に保存・log と stock を更新」まで実行。 | **`SETUP_AUTOMATION.md`** に手順あり。GitHub Secrets に **ANTHROPIC_API_KEY** を登録すると Claude で書く。未設定なら **OPENAI_API_KEY** で OpenAI を使用。 |
+
+※ 自動実行 = **手動でやっている「Claude Code で記事を書く」部分を、同じ Claude で自動で回している**イメージです。できあがった下書きは drafts/ に入るので、あとは手動と同じくあなたがチェック → OK なら画像生成・Wix 投稿です。
+
+---
+
+## 流れの全体像：Claude Code で書く → チェック → OK なら画像 → Wix 投稿
+
+```
+1. Claude Code で記事を書いてもらう
+   （トピックは topics/stock.md の上から1つ。下の「Claude Code 用 依頼文」をコピペして渡す）
+
+2. あなたがチェック
+   → 内容を読んで「OK」か「ここを直して」を伝える。直しがあれば Claude Code に差し戻し。
+
+3. OK が出たら
+   ├─ 画像：Claude Code が書いた「画像用プロンプト」を ChatGPT に渡して画像を生成 → drafts/images/ に保存
+   ├─ Cursor：記事本文を drafts/ に保存、used/log に記録、stock から削除、GBP 用テキスト作成
+   └─ あなた：drafts/ の本文と drafts/images/ の画像を Wix に投稿（コピペ・アップロード）
+```
+
+※ 任意で、Claude Code が書いた記事を **Cursor で EDITORIAL_GUIDELINES と ASUNARU_EHIME_BRIEF に沿ってチェック**し、修正点を Claude Code に差し戻すと、より安心です。
 
 ---
 
