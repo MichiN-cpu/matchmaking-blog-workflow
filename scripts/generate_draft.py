@@ -118,6 +118,13 @@ def generate_with_openai(prompt: str, api_key: str) -> str:
     return (resp.choices[0].message.content or "").strip()
 
 
+def find_existing_draft(drafts_dir: Path, safe_title: str) -> Path | None:
+    """同じタイトルの下書きがすでに drafts/ にあれば返す。なければ None。"""
+    for p in drafts_dir.glob(f"draft_*_{safe_title}.md"):
+        return p
+    return None
+
+
 def main() -> None:
     anthropic_key = os.environ.get("ANTHROPIC_API_KEY")
     openai_key = os.environ.get("OPENAI_API_KEY")
@@ -134,6 +141,14 @@ def main() -> None:
     topic_title, exact_line = get_first_topic(stock_content)
     if not topic_title or not exact_line:
         print("トピックが1件も見つかりません。stock.md を確認してください。")
+        exit(0)
+
+    safe_title = sanitize_filename(topic_title)[:50]
+    drafts_dir = ROOT / "drafts"
+    existing = find_existing_draft(drafts_dir, safe_title)
+    if existing:
+        print(f"この記事はすでに書かれています: {existing.name}")
+        print("自動生成をスキップします。stock.md と used/log.md はそのままです。")
         exit(0)
 
     guidelines = load_text(guidelines_path)
@@ -156,7 +171,6 @@ def main() -> None:
         exit(1)
 
     today = date.today().strftime("%Y-%m-%d")
-    safe_title = sanitize_filename(topic_title)[:50]
     draft_path = ROOT / "drafts" / f"draft_{today}_{safe_title}.md"
     save_text(draft_path, body)
     print(f"下書きを保存しました: {draft_path}")
