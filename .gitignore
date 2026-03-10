@@ -1,0 +1,7 @@
+.env
+*.pyc
+__pycache__/
+.DS_Store
+# 画像はGitHubに保存して自動化ワークフローから参照できるようにする
+# drafts/images/*.png
+# drafts/images/*.jpg

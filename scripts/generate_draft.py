@@ -8,8 +8,10 @@ stock.md の先頭トピックで記事下書きを生成し、drafts/ に保存
 
 import os
 import re
+import requests
 from datetime import date
 from pathlib import Path
+from typing import Optional, Tuple
 
 # リポジトリルート（このスクリプトは scripts/ にある想定）
 ROOT = Path(__file__).resolve().parent.parent
@@ -26,7 +28,7 @@ def save_text(path: Path, text: str) -> None:
         f.write(text)
 
 
-def get_first_topic(stock_content: str) -> tuple[str | None, str | None]:
+def get_first_topic(stock_content: str) -> Tuple[Optional[str], Optional[str]]:
     """stock.md の内容から先頭1トピックを取得。('見出し用タイトル', '元の1行') または (None, None)。"""
     parts = stock_content.split("---", 1)
     if len(parts) < 2:
@@ -111,11 +113,95 @@ def generate_with_openai(prompt: str, api_key: str) -> str:
     from openai import OpenAI
     client = OpenAI(api_key=api_key)
     resp = client.chat.completions.create(
-        model="gpt-4o-mini",
+        model="gpt-4o",
         messages=[{"role": "user", "content": prompt}],
         temperature=0.7,
     )
     return (resp.choices[0].message.content or "").strip()
+
+
+def build_image_prompt_request(topic: str, body: str) -> str:
+    return f"""以下の結婚相談所ブログ記事に合う画像プロンプトを3点、英語で作成してください。
+
+【トピック】{topic}
+
+【記事本文（冒頭）】
+{body[:800]}
+
+以下の形式で出力してください（余計な説明は不要）：
+
+IMAGE1: <英語プロンプト>
+IMAGE2: <英語プロンプト>
+IMAGE3: <英語プロンプト>
+
+ルール：
+- flat illustration style, no text, soft warm tones, Japanese characters and setting
+- 必ず `no text` を含める
+- 人物が出る場合は `East Asian appearance, black hair` を含める
+- 写真ではなくイラスト調にする
+"""
+
+
+def parse_image_prompts(text: str) -> list:
+    prompts = []
+    for m in re.finditer(r'IMAGE\d:\s*(.+)', text):
+        prompts.append(m.group(1).strip())
+    return prompts
+
+
+def generate_image_prompts(topic: str, body: str, anthropic_key: str = None, openai_key: str = None) -> list:
+    prompt = build_image_prompt_request(topic, body)
+    try:
+        if anthropic_key:
+            from anthropic import Anthropic
+            client = Anthropic(api_key=anthropic_key)
+            resp = client.messages.create(
+                model="claude-3-5-sonnet-20241022",
+                max_tokens=1024,
+                messages=[{"role": "user", "content": prompt}],
+            )
+            text = resp.content[0].text.strip()
+        else:
+            from openai import OpenAI
+            client = OpenAI(api_key=openai_key)
+            resp = client.chat.completions.create(
+                model="gpt-4o",
+                messages=[{"role": "user", "content": prompt}],
+                temperature=0.7,
+            )
+            text = (resp.choices[0].message.content or "").strip()
+        return parse_image_prompts(text)
+    except Exception as e:
+        print(f"画像プロンプト生成エラー: {e}")
+        return []
+
+
+def generate_images_dalle(prompts: list, draft_path: Path, openai_key: str) -> None:
+    from openai import OpenAI
+    client = OpenAI(api_key=openai_key)
+    images_dir = draft_path.parent / "images"
+    images_dir.mkdir(parents=True, exist_ok=True)
+    date_str = re.search(r'\d{4}-\d{2}-\d{2}', draft_path.name)
+    date_str = date_str.group(0) if date_str else date.today().strftime("%Y-%m-%d")
+
+    for idx, prompt_text in enumerate(prompts, 1):
+        label = "eyecatch" if idx == 1 else f"img{idx}"
+        out_path = images_dir / f"{date_str}_{label}.png"
+        print(f"  [{idx}/{len(prompts)}] DALL-E 3 生成中...")
+        try:
+            resp = client.images.generate(
+                model="dall-e-3",
+                prompt=prompt_text,
+                size="1792x1024",
+                quality="standard",
+                n=1,
+            )
+            img_url = resp.data[0].url
+            img_data = requests.get(img_url, timeout=60).content
+            out_path.write_bytes(img_data)
+            print(f"       保存: {out_path.name}")
+        except Exception as e:
+            print(f"       画像生成エラー（{label}）: {e}")
 
 
 def main() -> None:
@@ -184,7 +270,19 @@ def main() -> None:
     save_text(stock_path, new_stock)
     print("topics/stock.md から該当トピックを削除しました。")
 
-    print("完了しました。")
+    # 画像生成（OPENAI_API_KEY がある場合のみ）
+    if openai_key:
+        print("\n画像プロンプトを生成しています...")
+        image_prompts = generate_image_prompts(topic_title, body, anthropic_key, openai_key)
+        if image_prompts:
+            print(f"画像プロンプト {len(image_prompts)} 件生成完了。DALL-E 3 で画像を生成しています...")
+            generate_images_dalle(image_prompts, draft_path, openai_key)
+        else:
+            print("画像プロンプトの生成に失敗しました。スキップします。")
+    else:
+        print("OPENAI_API_KEY が未設定のため画像生成をスキップします。")
+
+    print("\n完了しました。")
 
 
 if __name__ == "__main__":
