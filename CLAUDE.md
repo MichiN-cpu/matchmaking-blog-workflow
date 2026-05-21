@@ -141,12 +141,14 @@ Wix MCPツールを使って直接投稿する。
 ### ベーススタイル（全画像共通・必須）
 
 ```
-Clean flat illustration, no text, crisp vibrant colors, bright modern design,
-light neutral background, sharp clean lines,
-contemporary Japanese digital illustration aesthetic, no warm filter, no yellow tones
+Photorealistic, cinematic quality, natural soft lighting, East Asian appearance,
+beautiful Japanese woman, elegant refined features, model-like appearance, clear skin,
+real-world setting, professional lifestyle photography style,
+shallow depth of field, clean bright modern atmosphere, no text
 ```
 
-**禁止ワード:** `soft warm tones` / `warm tones` / `warm colors` → 黄ばんだ昭和っぽい仕上がりになるため使用禁止。
+**禁止ワード:** `illustration` / `flat` / `soft warm tones` / `warm tones` → イラスト調・黄ばみの原因になるため使用禁止。
+**方針:** イラストではなく写真風リアル画像。みっちゃんのブログに既に使っているスタイルに合わせる。
 
 ### お見合いシーンの追加指定
 
