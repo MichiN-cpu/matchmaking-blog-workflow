@@ -136,7 +136,19 @@ Wix MCPツールを使って直接投稿する。
 
 ---
 
-## 画像生成プロンプトのコツ（お見合い・婚活系）
+## 画像生成プロンプトのコツ
+
+### ベーススタイル（全画像共通・必須）
+
+```
+Clean flat illustration, no text, crisp vibrant colors, bright modern design,
+light neutral background, sharp clean lines,
+contemporary Japanese digital illustration aesthetic, no warm filter, no yellow tones
+```
+
+**禁止ワード:** `soft warm tones` / `warm tones` / `warm colors` → 黄ばんだ昭和っぽい仕上がりになるため使用禁止。
+
+### お見合いシーンの追加指定
 
 お見合いシーンを生成するときは以下を必ず含める：
 
