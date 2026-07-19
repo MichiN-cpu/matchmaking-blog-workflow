@@ -341,13 +341,18 @@ def main():
         print("カバー画像PATCH完了" if rp.ok else f"カバー画像PATCH失敗: {rp.status_code} {rp.text[:200]}")
 
     # Step 6: SEOディスクリプションをPATCH
+    # 注: "seoData": {"description": "..."} は200を返すがサイレント失敗する（保存されない）。
+    # 正しくは "seoData.tags" にmetaタグ配列として入れる（2026-07-19判明）。
     if draft_id:
         print("[Wix] SEOディスクリプションをPATCH中...")
         patch_seo = {
             "draftPost": {
-                "seoData": {"description": SEO_DESC}
+                "seoData": {
+                    "tags": [{"type": "meta", "props": {"name": "description", "content": SEO_DESC}}],
+                    "settings": {"preventAutoRedirect": False, "keywords": []},
+                }
             },
-            "fieldMask": "seoData.description"
+            "fieldMask": "seoData"
         }
         rs = requests.patch(f"{WIX_BASE}/blog/v3/draft-posts/{draft_id}",
                             headers=wix_headers(), json=patch_seo, timeout=30)
