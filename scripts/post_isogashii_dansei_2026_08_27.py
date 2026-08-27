@@ -161,7 +161,7 @@ def build_nodes():
     nodes.append(sp())
     nodes.append(p("忙しさは、便利な避難場所にもなり得るんですね。これは弱さではなく、誰にでもある自然な反応です。"))
     nodes.append(sp())
-    nodes.append(p("ただ、この「いつものクセ」に気づいて、少しずつ手放していく練習をすることで、婚活も、その先の結婚生活も、驚くほど軽やかに進み始めます。"))
+    nodes.append(p("この「いつものクセ」に思い当たる節があるならば、心理カウンセラーでもある仲人の私と一緒に、少しずつ手放していきませんか？手放せば手放すほど、婚活も、その先の結婚生活も、驚くほど軽やかに進み始めます。"))
     nodes.append(sp())
 
     nodes.extend(section_heading("じんわり、でも確かに変わっていく"))
@@ -176,6 +176,8 @@ def build_nodes():
     nodes.append(p("そしてその先には、仕事で疲れて帰った夜に、玄関で「おかえり」と言ってくれる人がいる暮らしが待っています。"))
     nodes.append(sp())
     nodes.append(p("忙しい毎日だからこそ、隣で笑ってくれる人の存在が、何よりの支えになるんですよね。"))
+    nodes.append(sp())
+    nodes.append(p("エネルギーチャージの時間になる結婚生活が、私のお勧めしたい”素直婚”なんです💕"))
     nodes.append(sp())
 
     nodes.append(p_bold("今週の一歩"))
