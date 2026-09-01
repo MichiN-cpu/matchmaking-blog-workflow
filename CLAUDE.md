@@ -32,6 +32,7 @@ Claude Code が全工程を管理し、Cursor は不要。
    - モデル: `gpt-image-1` または `dall-e-3`
    - `drafts/images/YYYY-MM-DD_eyecatch.png` に保存
    - 図解が必要な場合は `drafts/images/YYYY-MM-DD_diagram_〇〇.png` に保存
+3. **アイキャッチのみ、`scripts/eyecatch_composer.py`の`compose_eyecatch()`でタイトルのフックを文字焼き込みする**（2026-09-02追記、詳細はBLOG_POLICY_ASUNARU.md §5-6-2）。Wixのカバー画像には焼き込み後の画像を使う。本文中の差し込み画像には文字を入れない
 
 ### ステップ4：ファイル保存・ログ更新
 
