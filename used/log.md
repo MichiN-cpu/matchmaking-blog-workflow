@@ -218,3 +218,8 @@
   - 実施内容：①3商品それぞれにクリック計測用トラッキングリンクを作成（LINE Harness）②本記事をあすなる愛媛ブログに下書き投稿③LINE配信文案を作成（mail-drafts/2026-09-03-omamori-items-line-broadcast.md、送信はみっちゃんの確認後）
   - カテゴリ：お知らせ／タグ：婚活・NLP・心構え・婚活マインド
   - 投稿スクリプト: scripts/post_omamori_items_2026_09_03.py
+
+| 2026-09-03 | 【男性向け】「彼女、最近ちょっと元気ない気がする」（本日9:00公開予約分、Wix下書きID: b6dcd2b5-77ea-42d7-a965-e6e9ea1db7f0）のサムネイル画像を明るいものに差し替え |
+  - みっちゃんの指摘：サムネイルが暗い（旧: 2026-08-21_kanojo_genkinai_eyecatch.png、夜の暖色照明でBLOG_POLICY禁止の「暖色・黄ばみ」トーン）
+  - 対応：同じ構図・テーマ（男性が彼女の元気のなさに気づき寄り添う場面）で、日中の明るい自然光・ニュートラルカラーのバージョンをgpt-image-1で再生成（drafts/images/2026-09-03_kanojo_genkinai_eyecatch_v2.png）→Wixメディアにアップロード→draft-postsのcover画像をPATCHで差し替え。scheduledPublishDate（2026-09-03T00:00:00Z）・SCHEDULEDステータスは変更なし
+  - 注意：この記事はcompose_eyecatch()による文字焼き込み（9/2新方式）はまだ未適用。明るさの差し替えのみ実施、文字入れは別途要判断
