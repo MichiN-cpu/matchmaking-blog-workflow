@@ -127,8 +127,8 @@
 **ルール**
 
 1. **デフォルトは「明るく希望が持てる」表情・色味にする。** AI画像生成プロンプト（アイキャッチ・本文差し込み画像とも）には、テーマに関わらず原則として以下を含める。
-   - 表情：`warm genuine smile, eyes bright with hope, NOT downcast, NOT teary, NOT vacant or empty stare`
-   - 色味：`warm and vivid lighting, natural warm sunlight or soft golden light, NOT pale, NOT desaturated, NOT gloomy shadow, NOT sepia`（8/30の教訓と同じ考え方を全記事に拡張）
+   - 表情：`warm genuine smile, eyes bright with hope, NOT downcast, NOT teary, NOT vacant or empty stare`（ここでの「warm」は表情・雰囲気の温かさを指す。人物の笑顔・目の輝きにのみ適用）
+   - 色味：`clean bright natural daylight, crisp clean colors, vivid but neutral tones, NOT pale, NOT desaturated, NOT gloomy shadow, NOT sepia`（8/30の教訓と同じ考え方を全記事に拡張。⚠️色味の指定に「warm」「golden light」等の色温度を指す語は使わない — `CLAUDE.md`の禁止ワード「warm tones」「soft warm tones」と矛盾し、黄ばみ・イラスト調の原因になるため。2026-09-03、みっちゃんの指摘で明文化）
 2. **「孤独」「不安」「疲れ」など問題提起系のテーマでも、表情は「思案顔・困り顔」までに留め、俯き・涙目・真っ暗な背景にはしない。** トーンを落とす場合も彩度をわずかに抑える程度にとどめ、暗闇・陰影を強めない。サスペンス構造（結論を明かさないタイトル）は文字部分で作るものであり、写真の表情まで暗くする必要はない。
 3. **比率の目安：週3本の投稿のうち、最低2本（約7割）は明確に「明るい表情・笑顔」のアイキャッチにする。** 「思案顔・静かなトーン」は週最大1本までとし、その場合も上記2の範囲を超えて暗くしない。判断に迷ったら明るい方を選ぶ。
 4. **公開済み記事のアイキャッチも、上記に反して暗い印象のものが見つかり次第、差し替え対象として`used/log.md`か本ファイルに記録し、次回の画像生成作業（ローカル環境）で順次作り直す。**
