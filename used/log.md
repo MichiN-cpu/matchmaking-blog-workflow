@@ -223,3 +223,11 @@
   - みっちゃんの指摘：サムネイルが暗い（旧: 2026-08-21_kanojo_genkinai_eyecatch.png、夜の暖色照明でBLOG_POLICY禁止の「暖色・黄ばみ」トーン）
   - 対応：同じ構図・テーマ（男性が彼女の元気のなさに気づき寄り添う場面）で、日中の明るい自然光・ニュートラルカラーのバージョンをgpt-image-1で再生成（drafts/images/2026-09-03_kanojo_genkinai_eyecatch_v2.png）→Wixメディアにアップロード→draft-postsのcover画像をPATCHで差し替え。scheduledPublishDate（2026-09-03T00:00:00Z）・SCHEDULEDステータスは変更なし
   - 注意：この記事はcompose_eyecatch()による文字焼き込み（9/2新方式）はまだ未適用。明るさの差し替えのみ実施、文字入れは別途要判断
+
+| 2026-09-03 | 引き継ぎリスト（次のチャット用メモ.md、サムネイル明るさチェック対象10本）の残り、7本を一括差し替え |
+  - 対象：yokatta_wo_kazoeru（6d3b8a82・9/6予約）／app_tsukare_josei（6f4cdc1e・9/9予約）／isogashii_dansei（66b9bbdf・9/10予約）／hanbetsu_ryouiki（43b84e67・9/13予約）／anshin_josei（77e61211・9/16予約）／sabishisa_dansei（3e9bd986・9/17予約）／anzen_shinrai（c5b47c12・下書き）
+  - 判断基準：BLOG_POLICY_ASUNARU.md §5-6-3（暗い表情・涙目・俯き・真っ暗な背景はNG）に照らして実際の画像を目視確認。上記7本は夜間照明・伏し目・疲弊した表情など明確に暗い印象だったため差し替え対象と判断
+  - 対象外と判断：kugiri_danjo（fcbe0358）は日中の窓際で表情も思案顔止まり、許容範囲と判断し据え置き／omamori_items（3f93b867）は人物の暗い表情ではなく静物中心のため対象外
+  - 対応：`scripts/fix_dark_thumbnails_2026_09_03.py`を新設。各記事のテーマに合わせて日中の自然光・ニュートラルカラー（色味の指定に「warm」は使わず、CLAUDE.mdの禁止ワードと矛盾しないよう統一）のプロンプトでgpt-image-1により再生成→`eyecatch_composer.py`で既存のタイトルフック文言を焼き込み→Wixにアップロード→draft-postsのcover画像をPATCH。全7件、scheduledPublishDate・ステータス（SCHEDULED/UNPUBLISHED）は変更なしを確認済み
+  - 表情の方針：忙しい男性・「小さなよかった」等ポジティブな結論の記事は明確な笑顔に変更。疲れ・不安・寂しさ等の問題提起系は「思案顔・困り顔」までに留め、俯き・涙目・真っ暗な背景は避ける（sabishisa_danseiは「夜」がテーマのため時間帯は維持しつつ、部屋の照明を明るくして陰気さを解消）
+  - `次のチャット用メモ.md`の対象リストを全件チェック済みに更新
