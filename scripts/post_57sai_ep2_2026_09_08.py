@@ -34,6 +34,7 @@ TITLE = "【女性向け】57歳仲人、婚活始めました。"
 EXCERPT = "57歳と2ヶ月、初めてのお見合い。遠距離だったのでZoomでした。条件を聞き合う中で、ふと浮かんだ「私は我慢するの？」という問い。仲人自身の婚活実話、第2話。"
 FOCUS_KEYWORD = "57歳 婚活 お見合い"
 EP1_URL = "https://www.asunaru.jp/post/【女性向け】57歳仲人、婚活始めました。"
+REAL_PHOTO_URL = "https://static.wixstatic.com/media/a4e52d_cf3f0f8fec8d40e4ac0e0bb6dfc4771d~mv2.png"
 
 IMAGES_DIR = os.path.join(os.path.dirname(__file__), "..", "drafts", "images")
 
@@ -69,6 +70,29 @@ def link_node_centered(text, url):
     return {"type": "PARAGRAPH", "id": nid(), "nodes": [
         {"type": "TEXT", "id": nid(), "nodes": [], "textData": {"text": text, "decorations": [{"type": "LINK", "linkData": {"link": {"url": url, "target": "BLANK"}}}]}}
     ], "paragraphData": {"textStyle": {"textAlignment": "CENTER"}}}
+
+def real_photo_node():
+    return {"type": "IMAGE", "id": nid(), "nodes": [],
+            "imageData": {
+                "image": {"src": {"url": REAL_PHOTO_URL}},
+                "containerData": {"width": {"size": "SMALL"}, "alignment": "CENTER"},
+            }}
+
+def set_seo(draft_id):
+    seo_patch = {
+        "draftPost": {
+            "seoData": {
+                "tags": [
+                    {"type": "title", "children": TITLE},
+                    {"type": "meta", "props": {"name": "description", "content": EXCERPT}},
+                ],
+                "settings": {"preventAutoRedirect": False, "keywords": [{"term": FOCUS_KEYWORD, "isMain": True}]},
+            }
+        },
+        "fieldMask": "seoData",
+    }
+    rp = requests.patch(f"{WIX_BASE}/blog/v3/draft-posts/{draft_id}", headers=wix_headers(), json=seo_patch, timeout=30)
+    print("SEOメタ・フォーカスキーワード設定:", "完了" if rp.ok else f"失敗 {rp.status_code} {rp.text[:300]}")
 
 def build_nodes():
     nodes = []
@@ -189,7 +213,9 @@ def build_nodes():
         nodes.append(p(line))
         nodes.append(sp())
 
-    nodes.append(link_node_centered("⬇️あなたに合った婚活を。無料相談はこちらから！⬇️", "https://www.asunaru.jp/soudan"))
+    nodes.append(real_photo_node())
+    nodes.append(sp())
+    nodes.append(link_node_centered("⬇️あなたに合った婚活を。無料相談はこちらから！⬇️ https://www.asunaru.jp/soudan", "https://www.asunaru.jp/soudan"))
     return nodes
 
 def create_draft():
@@ -301,4 +327,5 @@ if __name__ == "__main__":
     draft_id = create_draft()
     if draft_id:
         set_related_posts(draft_id)
+        set_seo(draft_id)
         add_images(draft_id)
