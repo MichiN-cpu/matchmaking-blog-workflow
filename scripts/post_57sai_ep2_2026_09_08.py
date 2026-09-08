@@ -66,10 +66,19 @@ def p_with_link(prefix, link_text, suffix, url):
         {"type": "TEXT", "id": nid(), "nodes": [], "textData": {"text": suffix, "decorations": []}},
     ], "paragraphData": {}}
 
-def link_node_centered(text, url):
+def link_node_centered(text, url, underline=False):
+    decos = [{"type": "LINK", "linkData": {"link": {"url": url, "target": "BLANK"}}}]
+    if underline:
+        decos.append({"type": "UNDERLINE"})
     return {"type": "PARAGRAPH", "id": nid(), "nodes": [
-        {"type": "TEXT", "id": nid(), "nodes": [], "textData": {"text": text, "decorations": [{"type": "LINK", "linkData": {"link": {"url": url, "target": "BLANK"}}}]}}
+        {"type": "TEXT", "id": nid(), "nodes": [], "textData": {"text": text, "decorations": decos}}
     ], "paragraphData": {"textStyle": {"textAlignment": "CENTER"}}}
+
+def cta_nodes():
+    return [
+        link_node_centered("⬇️あなたに合った婚活を。無料相談はこちらから！⬇️", "https://www.asunaru.jp/soudan"),
+        link_node_centered("https://www.asunaru.jp/soudan", "https://www.asunaru.jp/soudan", underline=True),
+    ]
 
 def real_photo_node():
     return {"type": "IMAGE", "id": nid(), "nodes": [],
@@ -215,7 +224,7 @@ def build_nodes():
 
     nodes.append(real_photo_node())
     nodes.append(sp())
-    nodes.append(link_node_centered("⬇️あなたに合った婚活を。無料相談はこちらから！⬇️ https://www.asunaru.jp/soudan", "https://www.asunaru.jp/soudan"))
+    nodes.extend(cta_nodes())
     return nodes
 
 def create_draft():
@@ -268,7 +277,10 @@ def upload_image_file(local_path, filename):
 
 def image_node(file_obj, caption=""):
     return {"type": "IMAGE", "id": nid(), "nodes": [],
-            "imageData": {"image": {"src": {"url": file_obj["url"]}}, "caption": caption}}
+            "imageData": {
+                "image": {"src": {"url": file_obj["url"]}}, "caption": caption,
+                "containerData": {"width": {"size": "SMALL"}, "alignment": "CENTER"},
+            }}
 
 def find_index_after_text_contains(nodes, substr):
     for i, n in enumerate(nodes):
