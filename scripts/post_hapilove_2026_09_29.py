@@ -12,15 +12,15 @@ from post_keikaku_josei_dansei_2026_09_common import (
 WIX_API_KEY = os.environ["WIX_API_KEY"]
 WIX_BASE = "https://www.wixapis.com"
 D = os.path.join(os.path.dirname(__file__), "..", "drafts", "hapilove_2026-09-29")
-COVER = "hapilove_2026-09-29_square.png"
+COVER = "hapilove_2026-09-29_square_v2.png"
 
 SITE_ID = "d01daac5-b796-4bd3-b09b-6d9bbcc37573"
 MEMBER_ID = "69e25236-d316-4da8-92e4-f500aca1fe37"
 CTA_ASUNARU = "https://www.asunaru.jp/soudan?utm_source=blog&utm_medium=referral&utm_campaign=hapilove_2026-09"
 LINE_URL = "https://lin.ee/PEixgsD"
 
-TITLE = "9月29日（火）午前は「ハピラブLabo」へ｜恋愛・婚活・結婚をもっとハッピーにするおしゃべり会"
-EXCERPT = ("9月29日（火）10時〜12時、松山市駅から徒歩3分の花園町オフィスで「ハピラブLabo」を開催します。"
+TITLE = "9月29日（火）午後は「ハピラブLabo」へ｜恋愛・婚活・結婚をもっとハッピーにするおしゃべり会"
+EXCERPT = ("9月29日（火）13時〜15時、松山市駅から徒歩3分の花園町オフィスで「ハピラブLabo」を開催します。"
            "ココカラダイガクさんとの共催で、参加費は1,000円。恋愛・婚活・結婚のワクワクもお悩みも、みんなでおしゃべりしましょう。")
 FOCUS_KEYWORD = "松山市 婚活 イベント"
 CATEGORY_IDS = ["fc247847-d52b-438c-ab23-95bae771dc0a"]
@@ -52,12 +52,12 @@ def body(cover_node):
         p("こんにちは！松山市駅から徒歩3分。"), sp(),
         p("あすなる愛媛の結婚相談所、プロの心理カウンセラーで仲人の中嶋美知です😊"), sp(),
         p("今日は、急きょ決まったうれしいお知らせです！"), sp(),
-        p("ココカラダイガクさんからのお声がけで、9月29日（火）の午前中に「ハピラブLabo（Happy Love研究所）」を開催することになりました💓"),
+        p("ココカラダイガクさんからのお声がけで、9月29日（火）の午後に「ハピラブLabo（Happy Love研究所）」を開催することになりました💓"),
         sp(), cover_node,
     ]
     n += section_heading("9月29日（火）ハピラブLabo 開催内容")
     n += [
-        sp(), p("日時：2026年9月29日（火）10時〜12時"), sp(),
+        sp(), p("日時：2026年9月29日（火）13時〜15時"), sp(),
         p("会場：花園町オフィス（松山市花園町4-11 吉田ビル3階東）"), sp(),
         p("参加費：1,000円（税込）"), sp(),
         p("共催：ココカラダイガク"), sp(),
@@ -70,10 +70,10 @@ def body(cover_node):
         p("これまでのハピラブLaboには、婚活中の方、ご成婚された方、お子さんのご結婚を願う親御さん、コミュニケーションのプロなど、いろいろな立場の方が集まってくださいました。"), sp(),
         p("自分とは違う経験を聞くと、「そんな考え方もあるんだ！」と視点がくるっと変わる瞬間があるんです。みんなで集まれば文殊の知恵で、いつも笑い声の絶えない時間になります😊"),
     ]
-    n += section_heading("平日の午前中だからこそ、ゆったりと")
+    n += section_heading("平日の午後だからこそ、ゆったりと")
     n += [
-        sp(), p("今回は火曜日の10時からの2時間です。"), sp(),
-        p("お仕事がお休みの方、午前中に少し時間がとれる方、子育てがひと段落した方にも来ていただきやすい時間帯になりました。"), sp(),
+        sp(), p("今回は火曜日の13時からの2時間です。"), sp(),
+        p("お仕事がお休みの方、お昼すぎに少し時間がとれる方、子育てがひと段落した方にも来ていただきやすい時間帯になりました。"), sp(),
         p("あなたの経験が、誰かの人生を変えちゃうかもしれません。そして、誰かのひと言が、あなたの明日をふっと明るくしてくれるかもしれません。"), sp(),
         p("そんなあたたかい循環が生まれる場所で、お会いできるのを楽しみにしています🎵"), sp(),
         p("なお、あすなる愛媛では入会金11,000円OFFキャンペーンを10月18日まで実施中です。「相談所のことも少し聞いてみたい」という方も、どうぞ気軽に声をかけてくださいね。"),
@@ -133,5 +133,27 @@ def run():
     print(f"編集URL https://manage.wix.com/dashboard/{SITE_ID}/blog/post/{did}")
 
 
+def update(did):
+    """時間変更（10〜12時→13〜15時、2026-09-27夜）で既存の下書きを差し替える。"""
+    cover = upload(COVER)
+    cover_node = photo_node(cover["id"], 1080, 1080, "既に幸せな人も、これから幸せになる人も💓")
+    b = {"draftPost": {
+        "title": TITLE, "excerpt": EXCERPT,
+        "richContent": {"nodes": body(cover_node), "metadata": {"version": 1}},
+        "media": {"wixMedia": {"image": {"id": cover["id"], "url": cover["url"], "width": 1080, "height": 1080}},
+                  "displayed": True, "custom": True},
+        "seoData": {"tags": [{"type": "title", "children": TITLE},
+                             {"type": "meta", "props": {"name": "description", "content": EXCERPT}}],
+                    "settings": {"preventAutoRedirect": False,
+                                 "keywords": [{"term": FOCUS_KEYWORD, "isMain": True}]}},
+    }, "fieldMask": "title,excerpt,richContent,media,seoData"}
+    r = requests.patch(f"{WIX_BASE}/blog/v3/draft-posts/{did}", headers=headers(), json=b, timeout=30)
+    print("更新:", "完了" if r.ok else f"失敗 {r.status_code} {r.text[:500]}")
+
+
 if __name__ == "__main__":
-    run()
+    import sys
+    if len(sys.argv) > 1:
+        update(sys.argv[1])
+    else:
+        run()
