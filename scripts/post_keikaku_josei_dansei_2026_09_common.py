@@ -79,7 +79,7 @@ def link_node_centered(text, url, underline=False):
 def cta_nodes(cta_url):
     return [
         link_node_centered("⬇️あなたに合った婚活を。無料相談はこちらから！⬇️", cta_url),
-        link_node_centered(cta_url, cta_url, underline=True),
+        link_node_centered("https://www.asunaru.jp/soudan", cta_url, underline=True),  # 表示はUTMなし、リンク先はUTM付き（2026-10-12）
     ]
 
 
