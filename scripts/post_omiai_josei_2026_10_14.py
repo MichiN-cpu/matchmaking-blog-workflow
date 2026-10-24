@@ -70,7 +70,7 @@ def generate_image(prompt, local_path):
         print("  既存画像を再利用:", os.path.basename(local_path))
         return local_path
     print("[gpt-image-1] generating:", os.path.basename(local_path))
-    resp = c.client.images.generate(model="gpt-image-1", prompt=prompt, size="1536x1024", quality="high", n=1)
+    resp = c.client.images.generate(model="gpt-image-1.5", prompt=prompt, size="1536x1024", quality="high", n=1)
     with open(local_path, "wb") as f:
         f.write(base64.b64decode(resp.data[0].b64_json))
     return local_path
@@ -124,7 +124,7 @@ def run(cfg):
 
     nodes = build_nodes(blocks, cfg["cta_url"], images)
     body = {"draftPost": {"title": title, "richContent": {"nodes": nodes, "metadata": {"version": 1}},
-            "categoryIds": [CATEGORY_OMIAI], "tagIds": cfg["tag_ids"], "relatedPostIds": cfg["related"],
+            "categoryIds": cfg.get("category_ids", [CATEGORY_OMIAI]), "tagIds": cfg["tag_ids"], "relatedPostIds": cfg["related"],
             "excerpt": cfg["excerpt"], "memberId": c.MEMBER_ID}, "publish": False}
     r = requests.post(f"{c.WIX_BASE}/blog/v3/draft-posts", headers=c.wix_headers(), json=body, timeout=30)
     print("draft create:", r.status_code)
