@@ -308,3 +308,6 @@
 - 【女性向け】LINEが来ない日、ふと浮かぶ「私に関心がないのかも」。――彼のスマホの向こうで、実は起きていたこと（男性向け11/5「仮交際のLINE」の女性側補完。公開案 2026-11-11(水)。タネン、Iメッセージ、強化、反すうと睡眠）
   - 本文: drafts/draft_2026-11-11_line-kurai-josei.md、スラッグ案 karikousai-line-josei
   - 備考: 会員の実エピソードは匿名（名前不使用）。stock.mdは男性向けで削除済みのため変更なし
+- 2026-11-04 修正: 上記LINE記事を2本に分割（みっちゃん指示）
+  - 1本目【男性向け】スマホを何度も見てしまう夜…返事が来ない時間に起きていること（11/5木）: drafts/draft_2026-11-05_karikousai-line.md、スラッグ案 karikousai-line-henji
+  - 2本目【男性向け】LINEの画面を開いては閉じてしまう、仮交際の夜。――「何を書けばいいかわからない」の本当の答え（11/12木）: drafts/draft_2026-11-12_karikousai-line-kakukoto.md、スラッグ案 karikousai-line-kakukoto
