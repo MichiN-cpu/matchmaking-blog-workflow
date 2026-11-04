@@ -315,3 +315,4 @@
   - 11/5(木)用 下書きID 19c9bbaf-2fc1-454b-86f0-cd9692ec2ebc / slug karikousai-line-henji
   - 11/12(木)用 下書きID e6e786eb-4f44-4ae7-84a6-236cc046d4c4 / slug karikousai-line-kakukoto
   - 投稿スクリプト scripts/post_karikousai_line_2026_11.py（henji|kakukoto）、画像 drafts/karikousai_line_2026-11/
+- 2026-11-04: 【女性向け】LINEが来ない日…(仮交際LINE) H2を4本に整理・11/25(水)公開想定に変更→Wix下書き dc83004f-cf6d-47c6-b804-b8b580d79894（カテゴリ：仮交際・仮決定）

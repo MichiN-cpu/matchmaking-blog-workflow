@@ -107,6 +107,30 @@ CFGS = {
          "a Japanese man and woman in their 30s sitting across from each other at a bright cafe table, the woman happily telling a story, the man smiling and nodding warmly with a kind expression, natural daylight"),
     ],
  },
+ "josei": {
+    "md": "draft_2026-11-25_line-kurai-josei.md",
+    "title": "【女性向け】LINEが来ない日、ふと浮かぶ「私に関心がないのかも」。――彼のスマホの向こうで、実は起きていたこと",
+    "slug": "2026-11-25_karikousai_line_josei", "seo_slug": "karikousai-line-josei",
+    "utm": "2026-11-25-karikousai-line-josei",
+    "excerpt": ("仮交際中、お相手のLINEが少ない、予定決めの連絡ばかりで「私に関心がないのかも」と悩む女性へ。公認心理師・仲人の中嶋美知が、"
+                "男性会員さんの相談でいちばん多い本音と、重く思われずに気持ちを伝えるコツ、そのまま使える例文を、愛媛・松山で婚活中の方へお話しします。"),
+    "focus_keyword": "仮交際 LINE 少ない",
+    "tags": ["婚活", "仮交際", "女性心理", "LINE", "コミュニケーション", "心構え", "パートナーシップ", "心理学"],
+    "eyecatch_prompt": ("a beautiful Japanese woman in her 30s smiling softly while looking at her smartphone with a hopeful expression, "
+        "sitting by a bright cafe window, wide shot"),
+    "eyecatch_main_html": 'LINEが来ない日、ふと浮かぶ<br><span class="accent">「私に関心がないのかも」。</span>',
+    "eyecatch_subtitle": "――彼のスマホの向こうで、実は起きていたこと",
+    "eyecatch_main_size": 56,
+    "body_images": [
+        ("不安は性格ではなく、反応パターン。パターンなら、ほどいていけます。",
+         "a beautiful Japanese woman in her 30s on a bright sofa holding her smartphone, thoughtful face turning into a gentle smile, natural daylight"),
+        ("「朝に『おはよう』のひとことがあるだけで",
+         "a beautiful Japanese woman in her 30s at a bright kitchen counter in the morning, smiling happily at a message on her smartphone, coffee cup beside her"),
+        ("朝、スマホを開くと",
+         "a beautiful Japanese woman in her 30s walking on a sunny autumn street to work with a happy smile, smartphone in hand, light spring in her step"),
+    ],
+ },
+
 }
 
 
