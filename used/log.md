@@ -311,3 +311,7 @@
 - 2026-11-04 修正: 上記LINE記事を2本に分割（みっちゃん指示）
   - 1本目【男性向け】スマホを何度も見てしまう夜…返事が来ない時間に起きていること（11/5木）: drafts/draft_2026-11-05_karikousai-line.md、スラッグ案 karikousai-line-henji
   - 2本目【男性向け】LINEの画面を開いては閉じてしまう、仮交際の夜。――「何を書けばいいかわからない」の本当の答え（11/12木）: drafts/draft_2026-11-12_karikousai-line-kakukoto.md、スラッグ案 karikousai-line-kakukoto
+- 2026-11-04 Wix下書き作成（男性向けLINE2本・みっちゃん承認済み、publish:false、カテゴリ仮決定=仮交際）
+  - 11/5(木)用 下書きID 19c9bbaf-2fc1-454b-86f0-cd9692ec2ebc / slug karikousai-line-henji
+  - 11/12(木)用 下書きID e6e786eb-4f44-4ae7-84a6-236cc046d4c4 / slug karikousai-line-kakukoto
+  - 投稿スクリプト scripts/post_karikousai_line_2026_11.py（henji|kakukoto）、画像 drafts/karikousai_line_2026-11/
