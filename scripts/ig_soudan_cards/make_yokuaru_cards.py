@@ -25,10 +25,10 @@ def card(quote,gender,path,th='A'):
     spaced(d,(W/2,292),f'{gender}に多いお悩み',f(GOM,28),c['sub'],6)
     d.text((W/2,410),'Q',font=f(MID,170),fill=c['acc'],anchor='mm')
     q=quote.strip().strip('「」'); lines=B[q].split('/')
-    for size in ((70,66,62,58,54,50) if len(lines)<4 else (62,58,54,50)):
+    for size in ((70,66,62,58,54,50) if len(lines)<4 else (62,58,54,50) if len(lines)==4 else (56,52,48)):
         qf=f(MID,size)
         if max(d.textlength(l,font=qf) for l in lines)<=820: break
-    lh=int(size*1.75); total=lh*len(lines); top=max(560,810-total/2)
+    lh=int(size*(1.75 if len(lines)<5 else 1.6)); total=lh*len(lines); top=max(560,810-total/2)
     for i,l in enumerate(lines): d.text((W/2,top+lh*i+lh/2),l,font=qf,fill=c['ink'],anchor='mm')
     y=min(top+total+90,H-330)
     d.text((W/2,y),'— 公認心理師の仲人が、お答えします —',font=f(MIN,34),fill=c['sub'],anchor='mm')
