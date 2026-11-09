@@ -25,6 +25,7 @@ EXCERPT = ("57歳で婚活を始めた仲人・中嶋美知が、59歳の秋、�
            "ひっそりのつもりが、友人たちのサプライズで笑顔あふれる一日に。人と土地とのつながりに見守られて、新しい暮らしが始まります。")
 FOCUS = "50代 再婚 神前式"
 TAGS = ["婚活", "再婚", "シニア婚活", "結婚報告", "神前式", "氏神様", "57歳仲人婚活始めました", "パートナーシップ"]
+COVER = "cover_composed.png"
 RELATED = ["771006c5-5963-457e-b7c9-cdf514e0a0ac",   # 57歳仲人、婚活始めました。（第１話）
            "1e4d8345-f803-4522-b7d8-37cf8dbbb1dc",   # 同（第2話）
            "02c1c45f-9569-4010-9371-93e93447abb5"]   # 一緒に暮らせない結婚なんて…
@@ -105,7 +106,7 @@ def run():
     did = r.json()["draftPost"]["id"]
     c.set_seo(did, {"title": title, "excerpt": EXCERPT, "focus_keyword": FOCUS})
 
-    cov = c.upload_image_file(os.path.join(D, "cover_composed.png"), f"{SLUG}_cover.png")
+    cov = c.upload_image_file(os.path.join(D, COVER), f"{SLUG}_cover.png")
     assert cov, "cover upload failed"
     mp = {"draftPost": {"media": {"custom": True, "wixMedia": {"image": {
           "id": cov.get("id", ""), "url": cov["url"], "height": cov.get("height", 1024),
