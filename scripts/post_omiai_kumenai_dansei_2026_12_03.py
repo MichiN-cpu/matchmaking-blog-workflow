@@ -12,7 +12,7 @@ base.D = os.path.join(HERE, "..", "drafts", "omiai_kumenai_2026-12")
 os.makedirs(base.D, exist_ok=True)
 
 MD = os.path.join(HERE, "..", "drafts", "draft_2026-12-03_omiai-kumenai-dansei.md")
-TITLE = "【男性向け】申し込みの返事を見るたび、ため息が出てしまうあなたへ。―女性がプロフィールで、本当に見ているもの"
+TITLE = "【男性向け】お見合いがなかなか決まらない？―女性がプロフィールで、本当に見ているもの"  # 11/13みっちゃんがWixで変更
 UTM = "2026-12-03-omiai-kumenai-dansei"
 CTA = f"https://www.asunaru.jp/soudan?utm_source=blog&utm_medium=cta&utm_campaign={UTM}"
 
